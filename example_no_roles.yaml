@@ -1,0 +1,30 @@
+---
+- name: vCloudDirectorAnsible
+  hosts: localhost
+  environment:
+    env_user: umaar
+    env_password: xyz
+    env_host: abc.xyz.com
+    env_org: myorg
+    env_api_version: 33.0 
+    env_verify_ssl_certs: false
+
+  tasks:
+
+    - name: create catalog
+      vcd_catalog:
+        catalog_name: "test_catalog"
+        description: "test_description"
+        state: "absent"
+
+    - name: create vapp
+      vcd_vapp:
+        vapp_name: "auto-test"
+        template_name: "Centos7_docker"
+        catalog_name: "Templates"
+        vdc: "LAB"
+        network: "Routed"
+        ip_allocation_mode: 'pool'
+        deploy: true
+        power_on: true
+        state: "present"
